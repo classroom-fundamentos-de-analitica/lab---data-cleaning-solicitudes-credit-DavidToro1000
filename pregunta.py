@@ -24,13 +24,13 @@ def clean_data():
     df["tipo_de_emprendimiento"]= df["tipo_de_emprendimiento"].str.lower()
     df["idea_negocio"]= df["idea_negocio"].str.lower()
     df["barrio"]= df["barrio"].str.lower()
-    #df["línea_credito"]= df["línea_credito"].str.lower()
+    df["línea_credito"]= df["línea_credito"].str.lower()
 
     #Se eliminan los caracteres - y _ de las columnas idea de negocio y barrio para que elimine luego posibles duplicados escritos diferente
-    df["idea_negocio"] = df["idea_negocio"].apply(lambda x: x.replace('_', ' '))
-    df["idea_negocio"] = df["idea_negocio"].apply(lambda x: x.replace('-', ' '))
-    df["barrio"] = df["barrio"].apply(lambda x: x.replace('_', ' '))
-    df["barrio"] = df["barrio"].apply(lambda x: x.replace('-', ' '))
+    for character in ['_', '-']:
+        for columna in ['sexo', 'tipo_de_emprendimiento', 'idea_negocio', 'línea_credito', 'barrio']:
+            # Se eliminan los caracteres especiales
+            df[columna] = df[columna].apply(lambda x: x.replace(character, ' '))
 
     #Monto del credito posee valores que estan escritos como strings, se usa regex para dejarlos en un formato que pueda ser facilmente transformado a entero
     df['monto_del_credito'] = df['monto_del_credito'].apply(lambda x: re.sub("\$[\s*]", "", x))
